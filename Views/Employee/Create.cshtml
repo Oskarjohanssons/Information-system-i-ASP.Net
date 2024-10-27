@@ -1,0 +1,65 @@
+﻿@model Information_system_i_ASP.Net.Models.Employee
+
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<h2>Create Employee</h2>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <form asp-action="Create" method="post" novalidate>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter full name" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="Enter email address" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Enter password"
+                           required minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                           title="Password must be at least 6 characters long and contain at least one digit, one uppercase letter, and one lowercase letter." />
+                    <span class="text-danger" id="password-error"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Custom JavaScript för att validera lösenord om HTML5 validering inte räcker
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const passwordField = document.querySelector('input[name="password"]');
+            const passwordError = document.getElementById('password-error');
+
+            const password = passwordField.value;
+            const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+            if (!passwordPattern.test(password)) {
+                e.preventDefault();
+                passwordError.textContent = "Password must be at least 6 characters long and contain at least one digit, one uppercase letter, and one lowercase letter.";
+            } else {
+                passwordError.textContent = "";
+            }
+        });
+    </script>
+}
+

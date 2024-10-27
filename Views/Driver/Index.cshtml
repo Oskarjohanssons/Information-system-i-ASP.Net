@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Driver>
+
+
+    <h2 class="mb-4 text-center">Driver List</h2>
+
+<!-- Knapp för att lägga till en ny förare -->
+<div class="text-right mb-4">
+    <a href="@Url.Action("Create", "Driver")" class="btn btn-success">
+        <i class="fas fa-plus"></i> Add New Driver
+    </a>
+</div>
+
+
+<!-- Knapp för att visa de senaste händelserna 12 timmar -->
+<a href="@Url.Action("RecentEvents", "Driver")" class="btn btn-primary mb-4">
+    <i class="fas fa-clock"></i> View Recent Events (Last 12 Hours)
+</a>
+
+
+    <!-- Search form -->
+    <div class="search-bar d-flex justify-content-center mb-4">
+        <form class="form-inline" method="get">
+            <div class="form-group mr-2">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Search by name..."
+                       name="searchString"
+                       value="@ViewContext.HttpContext.Request.Query["searchString"]" />
+            </div>
+            <div class="form-group mr-2">
+                <label for="fromNoteDate" class="sr-only">From</label>
+                <input type="date"
+                       class="form-control"
+                       name="fromNoteDate"
+                       value="@ViewContext.HttpContext.Request.Query["fromNoteDate"]" />
+            </div>
+            <div class="form-group mr-2">
+                <label for="toNoteDate" class="sr-only">To</label>
+                <input type="date"
+                       class="form-control"
+                       name="toNoteDate"
+                       value="@ViewContext.HttpContext.Request.Query["toNoteDate"]" />
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </form>
+    </div>
+
+    <!-- Table to display driver data -->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="thead">
+                <tr>
+                    <th>Driver Name</th>
+                    <th>Car Registration</th>
+                    <th>Note Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        <tbody>
+            @foreach (var driver in Model)
+            {
+                var latestEventDate = driver.Events?.OrderByDescending(e => e.NoteDate).FirstOrDefault()?.NoteDate;
+
+                <tr>
+                    <td>@driver.DriverName</td>
+                    <td>@driver.CarReg</td>
+                    <td>
+                        @if (latestEventDate.HasValue)
+                        {
+                            @latestEventDate.Value.ToShortDateString()
+                        }
+                        else
+                        {
+                            <span>No events</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", new { id = driver.DriverID })" class="btn btn-sm btn-info">
+                            <i class="fas fa-info-circle"></i> Details
+                        </a>
+                        <a href="@Url.Action("Edit", new { id = driver.DriverID })" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = driver.DriverID })" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        </table>
+    </div>
+</div>
