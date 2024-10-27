@@ -31,18 +31,25 @@ namespace Information_system_i_ASP.Net.Controllers
 
         // POST: Employee/Create
         [HttpPost]
-        public async Task<IActionResult> Create(string email, string name, string password)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Employee employee, string password)
         {
             if (ModelState.IsValid)
             {
-                var employee = new Employee
+                var user = new Employee
                 {
-                    UserName = email,
-                    Email = email,
-                    Name = name
+                    UserName = employee.Email,
+                    Email = employee.Email,
+                    Name = employee.Name
                 };
 
-                var result = await _userManager.CreateAsync(employee, password);
+                if (string.IsNullOrEmpty(password))
+                {
+                    ModelState.AddModelError("Password", "Password is required");
+                    return View(employee);
+                }
+
+                var result = await _userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
                     return RedirectToAction(nameof(Index));
@@ -52,7 +59,8 @@ namespace Information_system_i_ASP.Net.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            return View();
+           
+            return View(employee);
         }
 
         // GET: Employee/Edit/5

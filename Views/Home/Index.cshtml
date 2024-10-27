@@ -2,12 +2,92 @@
     ViewData["Title"] = "Intranät - Hem";
 }
 
-<div class="welcome-container text-center">
-    <h1 class="display-4">Välkommen till DeliverCompanys Intranät</h1>
-    <p class="lead">Här hittar du all viktig information och verktyg för ditt arbete som anställd hos DeliverCompany.</p>
-    <p>
-        För att få åtkomst till dina personliga arbetsverktyg och företagsdokument, logga in via knappen i det övre högra hörnet.
-        När du är inloggad kan du hantera dina arbetsuppgifter, uppdatera din profil och se de senaste nyheterna från företaget.
-    </p>
-  
+<div class="hero min-h-screen bg-gradient-to-br from-blue-50 to-white">
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8 transform hover:scale-[1.02] transition-transform duration-300">
+            <!-- Logo eller ikon kan läggas till här -->
+            @* <div class="mb-8 text-center">
+                 <svg class="w-20 h-20 mx-auto mb-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                </svg>
+            </div> *@ 
+
+            <!-- Välkomsttext -->
+            <div class="text-center space-y-6">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">
+                    Välkommen till Oskars åkeri AB Intranät
+                </h1>
+
+                <p class="text-xl text-gray-600 leading-relaxed">
+                    Här hittar du all viktig information och verktyg för ditt arbete
+                    som anställd hos Oskars åkeri AB.
+                </p>
+            </div>
+
+            <!-- Info cards -->
+            <div class="grid md:grid-cols-2 gap-6 mt-12">
+                <div class="p-6 bg-blue-50 rounded-xl">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-2">
+                        Snabbåtkomst
+                    </h3>
+                    <p class="text-gray-600">
+                        Logga in via knappen i det övre högra hörnet för att få åtkomst
+                        till dina personliga arbetsverktyg och företagsdokument.
+                    </p>
+                </div>
+
+                <div class="p-6 bg-green-50 rounded-xl">
+                    <h3 class="text-lg font-semibold text-green-800 mb-2">
+                        Efter inloggning
+                    </h3>
+                    <p class="text-gray-600">
+                        När du är inloggad kan du hantera dina arbetsuppgifter,
+                        uppdatera din profil och se de senaste nyheterna från företaget.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Senaste nyheter eller meddelanden kan läggas till här -->
+            <div class="mt-12 p-6 bg-yellow-50 rounded-xl">
+                <h3 class="text-lg font-semibold text-yellow-800 mb-2">
+                    Senaste uppdateringar
+                </h3>
+                <div class="space-y-2">
+                    @* Här kan du lägga till en partial view för nyheter eller meddelanden *@
+                    @* await Html.PartialAsync("_LatestNews") *@
+                    <p class="text-gray-600">Inga nya meddelanden just nu.</p>
+                </div>
+            </div>
+
+            <!-- Footer med kontaktinfo -->
+            <div class="mt-12 pt-6 border-t border-gray-200 text-center">
+                <p class="text-gray-500">
+                    Behöver du hjälp? Kontakta IT-support på
+                    <a href="mailto:support@oskarsåkeri.se" class="text-blue-600 hover:underline">
+                        support@oskarsåkeri.se
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        /* Custom animations */
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero > div {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+    </style>
+}
