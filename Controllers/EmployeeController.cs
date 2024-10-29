@@ -40,7 +40,8 @@ namespace Information_system_i_ASP.Net.Controllers
                 {
                     UserName = employee.Email,
                     Email = employee.Email,
-                    Name = employee.Name
+                    Name = employee.Name,
+                    EmailConfirmed = true,
                 };
 
                 if (string.IsNullOrEmpty(password))
@@ -52,6 +53,7 @@ namespace Information_system_i_ASP.Net.Controllers
                 var result = await _userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Employee");
                     return RedirectToAction(nameof(Index));
                 }
                 foreach (var error in result.Errors)
